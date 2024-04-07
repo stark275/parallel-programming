@@ -1,0 +1,54 @@
+version: "3.8"
+networks:
+  l1_ig_celery:
+services:
+########################### Redis ############################
+  rediserver:
+    container_name: redisserver_l1_ig
+    image: redis
+    restart: always
+    ports:
+      # - ${REDDIS_PORT}:6379 
+      - 6379:6379 
+    # volumes:
+    #   - redisData02:/data
+    entrypoint: redis-server --appendonly yes
+    networks:
+      - l1_ig_celery
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - l1_ig_celery
+
+volumes:
+  rabbitmq-data:
+
+########################### Celery Worker ############################
+  # celery:
+  #   image: regidesov1:latest
+  #   restart: always
+  #   command: celery -A ErpProject worker -l info
+  #   volumes:
+  #     - .:/erp
+  #     - ./docker/erp/ssl:/etc/ssl      
+  #   environment:
+  #       DOCKER_CONTAINER : 1
+  #       # CELERY_RESULT_BACKEND : 'django-db'
+  #       CELERY_CACHE_BACKEND :  'django-cache'
+  #       CELERY_BROKER_URL : 'redis://rediserver:6379'
+  #       CELERY_RESULT_BACKEND : 'redis://rediserver:6379'
+  #       DEBUG : 'True'
+  #       ALLOWED_HOSTS: '["*"]'  
+  #   depends_on:
+  #       - django
+  #       - rediserver
+
+  #   networks:
+  #       - l1_ig_celery     

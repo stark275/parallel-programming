@@ -7,9 +7,11 @@ app = Celery('concours_celery',
 
 @app.task
 def calculer_pourcentage(ligne):
-  notes = [int(note) for note in ligne]
+  # NomNotes = [int(note) for note in ligne[1:]]
+  notes = [int(note) for note in ligne[1:]]
   pourcentage = (sum(notes) / (len(notes) * 20)) * 100
-  return round(pourcentage, 2)
+ 
+  return (ligne[0], round(pourcentage, 2))
 
 @app.task
 def longtime_add(x, y):

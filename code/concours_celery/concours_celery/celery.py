@@ -8,6 +8,7 @@ app = Celery('concours_celery',
 @app.task
 def calculer_pourcentage(ligne):
   # NomNotes = [int(note) for note in ligne[1:]]
+
   notes = [int(note) for note in ligne[1:]]
   pourcentage = (sum(notes) / (len(notes) * 20)) * 100
  

@@ -1,0 +1,18 @@
+version: "3.8"
+
+networks:
+  tpdocker:
+
+services:
+  django:
+    build: .
+    container_name: tp_container
+    image: tp_image:v2
+    command: python3 manage.py runserver  0.0.0.0:8001
+    restart: always
+    volumes:
+      - .:/projet
+    ports:
+      - "8001:8001"
+    networks:
+      - tpdocker

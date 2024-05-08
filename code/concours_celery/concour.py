@@ -26,21 +26,19 @@ def traiter_lot(fichier_csv, debut, fin):
   print(f'\n temps d\'execution {t1 - t0} s')
 
   while(True):
-     time.sleep(0.2)
-     for res in results:
-        print(res)
-        if res.ready() :
-          print(res.result)
-
-
+    time.sleep(0.2)
+    for res in results:
+      if res.ready() :
+        print(res.result)
+         
 # Fonction principale
 def main():
   # Ouvrir le fichier CSV des étudiants en lecture
   with open("../../etudiants_rabbitMQ.csv", "r", newline="") as fichier_csv:
     lecteur_csv = islice(csv.reader(fichier_csv), 1, None)
-    nbr_candidats = 1000
+    nbr_candidats = 10000
    
-  nb_processus = 1
+  nb_processus = 4
   taille_lot = nbr_candidats // nb_processus
   debuts = [(i * taille_lot)  for i in range(nb_processus)]
   fins = [debut + taille_lot - 1 for debut in debuts]
@@ -63,6 +61,5 @@ def main():
     processus.join()
 
   
-    
 if __name__ == '__main__':
     main()

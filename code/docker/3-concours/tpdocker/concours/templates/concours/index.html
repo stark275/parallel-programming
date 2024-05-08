@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Concours National</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Concours National</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Sales</a>
+              </li>
+            </ul>
+            <span class="navbar-text">
+              Concours National
+            </span>
+          </div>
+        </div>
+      </nav>
+
+
+      <div class="container mt-5">
+        
+        <div class="row">
+          <div class="col-md-8">
+            <nav>
+              <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Evaluer</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Publier</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Récours</button>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">.
+               
+                <form method='post' action="{% url 'concours:evaluate' %}">
+                    {% csrf_token %}
+                    
+                    </br>
+                    <button type="submit" class="btn btn-primary">Evaluer</button>
+                  </form>
+                 
+                <div id="task-status">
+                </div>
+                  {%if my_task_id %}
+                    {{ my_task_id }}
+                  {% endif %}
+                
+              </div>
+
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Item</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Brach</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    
+                  </tbody>
+                </table>
+               
+              </div>
+
+              <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Item</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Brach</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    
+                  </tbody>
+                </table>
+               
+              </div>
+            </div>
+            
+          </div>
+
+      </div>
+      
+      <br>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+      function checkTaskStatus(taskId) {
+
+        let url = "/concours/get-task-result/{{my_task_id}}"
+
+        $.ajax({
+          url:  url, // Remplacez par l'URL de votre API
+          success: function(response) {
+
+            if (response) {
+
+              $("#task-status").text("Resultat = " + response.result);
+            } else {
+              // La tâche n'est pas encore prête
+              $("#task-status").text("Tâche en cours d'exécution...");
+            }
+          }
+        });
+      }
+
+      checkTaskStatus('0')
+    </script>
+  </body>
+</html>

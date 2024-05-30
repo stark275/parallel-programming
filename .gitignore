@@ -1,3 +1,6 @@
+code/docker/4-KatumbaUpc_biblioth-que/
+code/docker/4-kapend/
+
 *.csv
 etudiants_notes_10000.csv
 resultats.csv

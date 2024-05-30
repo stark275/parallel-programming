@@ -7,7 +7,7 @@ RUN pip3 install Django
 # Copier le reste du code source de l'application dans le conteneur
 COPY . .
 
-CMD [ "python3", "manage.py", "migrate", "--bind", "0.0.0.0:8000" ]
+CMD [ "python3", "manage.py", "runserver", "--bind", "0.0.0.0:8000" ]
 # Exposer le port sur lequel l'application s'exécute
 EXPOSE 8000
 # Définir la commande pour exécuter l'application

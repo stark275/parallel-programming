@@ -1,18 +1,12 @@
 version: "3.8"
-networks:
-  l1_ig_celery:
 services:
-  ########################### Redis ############################
-  rediserver:
-    container_name: redisserver_l1_ig
-    image: redis
+  mysql:
+    image: mysql
     restart: always
-    ports:
-      - 6379:6379 
-    entrypoint: redis-server --appendonly yes
-    networks:
-      - l1_ig_celery
-  ########################### RabbitMQ ############################
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: tpk8s
+
   rabbitmq:
     image: rabbitmq:management
     ports:
@@ -24,6 +18,19 @@ services:
     networks:
       - l1_ig_celery
 
+    ########################### Redis ############################
+  rediserver:
+    container_name: redisserver_l1_ig
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379 
+    entrypoint: redis-server --appendonly yes
+    networks:
+      - l1_ig_celery
+
+networks:
+  l1_ig_celery:
 volumes:
   rabbitmq-data:
 

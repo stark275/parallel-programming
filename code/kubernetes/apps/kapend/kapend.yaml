@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: kapend-app
-        image: moseskapend/jo_ges:latest
+        image: stark275/kapend:v2
         ports:
         - containerPort: 8000
 
@@ -29,6 +29,6 @@ spec:
     app: kapend-app
   type: NodePort
   ports:
-  - port: 8000  # Port externe exposé par le service
+  - port: 80  # Port externe exposé par le service
     targetPort: 8000  # Port sur les pods vers lequel le trafic est acheminé
     nodePort: 32043

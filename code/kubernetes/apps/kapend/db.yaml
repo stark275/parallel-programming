@@ -26,14 +26,14 @@ spec:
     spec:
       containers:
       - name: mysql-db
-        image: mysql:5.7
+        image: mysql
         env:
           - name: MYSQL_ROOT_HOST
             value: '%'
           - name: MYSQL_ROOT_PASSWORD
             value: 'root'
           - name: MYSQL_DATABASE
-            value: 'db_dgtcp'
+            value: 'djangodb'
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
@@ -76,7 +76,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-nodeport-service
+  name: mysqlserver
 spec:
   type: NodePort
   selector:

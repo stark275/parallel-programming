@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = 2 # Allouer 2 CPUs pour chaque VM
   end
 
-  (1..2).each do |i|
+  (1..3).each do |i|
     config.vm.define "node#{i}" do |node|
       node.vm.box = "ubuntu/focal64"
       node.vm.hostname = "node#{i}-microk8s"

@@ -1,0 +1,42 @@
+version: '3.1'
+
+networks:
+  kapend_net:
+
+services:
+  db:
+    build: ./Database
+    image: mysqlk
+    container_name: mysqlserver
+    restart: always
+    environment:
+      MYSQL_DATABASE: djangodb  # nom de votre base de données
+      # MYSQL_USER: 'admin'  # votre nom d'utilisateur
+      MYSQL_PASSWORD: root # votre mot de passe
+      MYSQL_ROOT_PASSWORD: root  # mot de passe root
+    ports:
+      - '3306:3306'  # port par défaut pour MySQL
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - kapend_net
+
+  web:
+    build: .
+    image: kapend
+    command: sh -c "python manage.py migrate --no-input && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - '8000:8000'  # port par défaut pour votre application Django
+    volumes:
+      - .:/code
+    depends_on:
+      db :
+        condition: service_healthy
+    networks:
+      - kapend_net
+

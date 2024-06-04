@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+<body>
+    <div class="container">
+        <h1>Ges. Clients</h1>
+        <table id="customers" border="1">
+            <thead>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Age</th>
+                <th>Sexe</th>
+                <th colspan="2" id="mid">Action</th>
+            </thead>
+            {% for x in client %}
+            <tr>
+                <td>{{x.id}}</td>
+                <td>{{x.nom}}</td>
+                <td>{{x.prenom}}</td>
+                <td>{{x.age}}</td>
+                <td>{{x.sexe}}</td>
+                <td>
+                    <a href="modifier/{{x.id}}"><button id="mod">Modifier</button></a>
+                </td>
+                <td>
+                    <a href="supprimer/{{x.id}}"><button id="sup">Supprimer</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <a href="{% url 'ajout' %}"><button id="new3">+ Clients</button></a>
+    </div>
+</body>
+</html>

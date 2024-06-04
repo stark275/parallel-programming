@@ -1,0 +1,87 @@
+# Configuration mysql
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  my.cnf: |
+    [mysqld]
+    lower_case_table_names=1
+
+---
+# Déploiement de MySQL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-db
+  template:
+    metadata:
+      labels:
+        app: mysql-db
+    spec:
+      containers:
+      - name: mysql-db
+        image: mysql
+        env:
+          - name: MYSQL_ROOT_HOST
+            value: '%'
+          - name: MYSQL_ROOT_PASSWORD
+            value: 'root'
+          - name: MYSQL_DATABASE
+            value: 'djangodb'
+        volumeMounts:
+        - name: mysql-data
+          mountPath: /var/lib/mysql
+        - name: mysql-config-volume
+          mountPath: /etc/mysql/conf.d/
+      volumes:
+      - name: mysql-data
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
+      - name: mysql-config-volume
+        configMap:
+          name: mysql-config
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/lib/mysql"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+
+# Service MySQL
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqlserver
+spec:
+  type: NodePort
+  selector:
+    app: mysql-db
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30036

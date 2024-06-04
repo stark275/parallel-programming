@@ -1,0 +1,4 @@
+.git/
+mysql_data/
+.env
+.env.exemple

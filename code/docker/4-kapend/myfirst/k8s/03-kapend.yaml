@@ -12,6 +12,17 @@ spec:
       labels:
         app: kapend-app
     spec:
+      initContainers:
+      - name: wait-for-mysql
+        image: busybox:1.28
+        command:
+        - sh
+        - -c
+        - >
+          until nslookup mysql-service; do
+            echo 'Waiting for MySQL to be ready';
+            sleep 2;
+          done
       containers:
       - name: kapend-app
         image: stark275/kapend:v2

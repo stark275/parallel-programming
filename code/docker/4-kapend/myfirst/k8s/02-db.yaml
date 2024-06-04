@@ -1,15 +1,3 @@
-# Configuration mysql
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: mysql-config
-data:
-  my.cnf: |
-    [mysqld]
-    lower_case_table_names=1
-
----
-# Déploiement de MySQL
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,13 +15,15 @@ spec:
       containers:
       - name: mysql-db
         image: mysql
+        envFrom:
+        - configMapRef:
+            name: mysql-db-config
         env:
-          - name: MYSQL_ROOT_HOST
-            value: '%'
           - name: MYSQL_ROOT_PASSWORD
-            value: 'root'
-          - name: MYSQL_DATABASE
-            value: 'djangodb'
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: root-password
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
@@ -45,33 +35,9 @@ spec:
           claimName: mysql-pv-claim
       - name: mysql-config-volume
         configMap:
-          name: mysql-config
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysql-pv
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/var/lib/mysql"
+          name: mysql-db-config
 
 ---
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pv-claim
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
-
 # Service MySQL
 apiVersion: v1
 kind: Service

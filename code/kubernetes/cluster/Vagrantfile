@@ -4,11 +4,11 @@
 Vagrant.configure("2") do |config|
   # Configuration globale pour tous les noeuds
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = 2048 # la mémoire pour chaque VM
-    vb.cpus = 2 # Allouer 2 CPUs pour chaque VM
+    vb.memory = 4096 # la mémoire pour chaque VM
+    vb.cpus = 4 # Allouer 4 CPUs pour chaque VM
   end
 
-  (1..3).each do |i|
+  (1..2).each do |i|
     config.vm.define "node#{i}" do |node|
       node.vm.box = "ubuntu/focal64"
       node.vm.hostname = "node#{i}-microk8s"

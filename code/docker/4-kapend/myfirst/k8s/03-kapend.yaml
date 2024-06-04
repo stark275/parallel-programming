@@ -19,7 +19,7 @@ spec:
         - sh
         - -c
         - >
-          until nslookup mysql-service; do
+          until nslookup mysqlserver; do
             echo 'Waiting for MySQL to be ready';
             sleep 2;
           done

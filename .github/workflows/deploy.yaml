@@ -1,6 +1,6 @@
 name: Continious Integration flow
 on:
-  push:
+  release:
     branches:
       - main
 

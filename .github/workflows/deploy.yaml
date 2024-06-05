@@ -32,4 +32,4 @@ jobs:
 
       - name: Update Kubernetes Manifest
         run: |
-          sed -i "s|usename/kapend:[a-z0-9]*|${{ secrets.DOCKERHUB_USERNAME }}/kapend:${{ github.sha }}|g" code/docker/4-kapend/myfirst/k8s/03-kapend.yaml
+          sed -i "s|usename/kapend:[a-z0-9]*|${{ secrets.DOCKERHUB_USERNAME }}/kapend:${{ github.sha }}|g" ./code/docker/4-kapend/myfirst/k8s/03-kapend.yaml

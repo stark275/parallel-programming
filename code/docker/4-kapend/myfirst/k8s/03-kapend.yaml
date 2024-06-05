@@ -25,7 +25,7 @@ spec:
           done
       containers:
       - name: kapend-app
-        image: stark275/kapend:6k8m56
+        image: stark275/kapend:v2
         ports:
         - containerPort: 8000
 

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: kapend-app
 spec:
-  replicas: 3  # Valeur par défaut, ajustée par la commande de mise à l'échelle
+  replicas: 5  # Valeur par défaut, ajustée par la commande de mise à l'échelle
   selector:
     matchLabels:
       app: kapend-app

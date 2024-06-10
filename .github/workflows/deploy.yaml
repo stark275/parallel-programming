@@ -39,7 +39,7 @@ jobs:
       - name: Update Kubernetes Manifest
         run: |
           # Mettez à jour vos fichiers de manifeste ici. Par exemple :
-          sed -i 's|image: stark275/kapend:.*|image: stark275/kapend:${{ github.sha }}|' ./k8s/manifest.yaml
+          sed -i 's|image: stark275/kapend:.*|image: stark275/kapend:${{ github.sha }}|' ./k8s/03-kapend.yaml
 
       - name: Commit and push
         run: |

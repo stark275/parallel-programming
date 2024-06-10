@@ -4,8 +4,8 @@
 Vagrant.configure("2") do |config|
   # Configuration globale pour tous les noeuds
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = 4096 # la mémoire pour chaque VM
-    vb.cpus = 4 # Allouer 4 CPUs pour chaque VM
+    vb.memory = 6144 # la mémoire pour chaque VM
+    vb.cpus = 5 # Allouer 4 CPUs pour chaque VM
   end
 
   (1..2).each do |i|

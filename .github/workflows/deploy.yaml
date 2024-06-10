@@ -1,6 +1,6 @@
 name: Continious Integration flow
 on:
-  release:
+  push:
     branches:
       - main
 
@@ -30,6 +30,19 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/kapend:${{ github.sha }}
 
+      - name: Checkout Kubernetes manifests repo
+        uses: actions/checkout@v2
+        with:
+          repository: 'stark275/k8sDeployConfig-argocd' # Remplacez par le nom de votre dépôt
+          token: ${{ secrets.GH_PAT }} # Un Personal Access Token (PAT) avec les droits appropriés
+
       - name: Update Kubernetes Manifest
         run: |
-          sed -i "s|stark275/kapend:[a-z0-9]*|${{ secrets.DOCKERHUB_USERNAME }}/kapend:${{ github.sha }}|g" ./code/docker/4-kapend/myfirst/k8s/03-kapend.yaml
+          # Mettez à jour vos fichiers de manifeste ici. Par exemple :
+          sed -i 's|image: stark275/kapend:.*|image: stark275/kapend:${{ github.sha }}|' ./k8s/manifest.yaml
+
+      - name: Commit and push
+        uses: actions/commit@v2
+        with:
+          message: 'Update image tag to ${{ github.sha }}'
+          token: ${{ secrets.GH_PAT }}

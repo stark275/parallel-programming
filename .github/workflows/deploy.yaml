@@ -42,7 +42,9 @@ jobs:
           sed -i 's|image: stark275/kapend:.*|image: stark275/kapend:${{ github.sha }}|' ./k8s/manifest.yaml
 
       - name: Commit and push
-        uses: actions/commit@v2
-        with:
-          message: 'Update image tag to ${{ github.sha }}'
-          token: ${{ secrets.GH_PAT }}
+        run: |
+          git config --global user.name 'stark'
+          git config --global user.email 'stark@example.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/stark275/k8sDeployConfig-argocd.git
+          git commit -am 'Update image tag to ${{ github.sha }}'
+          git push origin main

@@ -34,7 +34,7 @@ networks:
 volumes:
   rabbitmq-data:
 
-########################### Celery Worker ############################
+########################### Celery Worker ###########********#################
   # celery:
   #   image: # Dockerfile à ecrire
   #   restart: always
